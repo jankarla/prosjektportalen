@@ -73,6 +73,7 @@ export default class ProjectList extends BaseWebPart<IProjectListProps, IProject
      * Render project cards
      */
     private renderCards(): JSX.Element {
+        const { tileWidth, tileImageHeight, cardProperties } = this.props;
         const { projects, fields } = this.getFilteredData();
 
         if (projects.length === 0) {
@@ -81,17 +82,20 @@ export default class ProjectList extends BaseWebPart<IProjectListProps, IProject
 
         return (
             <div className={`pp-cardContainer`}>
-                {projects.map((project, idx) => (
-                    <ProjectCard
-                        key={idx}
-                        project={project}
-                        fields={fields}
-                        className={this.getClassName(project)}
-                        tileWidth={this.props.tileWidth}
-                        tileImageHeight={this.props.tileImageHeight}
-                        onClickHref={project.Url}
-                        showProjectInfo={e => this.setState({ showProjectInfo: project })} />
-                ))}
+                {projects.map((project, idx) => {
+                    const projectCardProps = {
+                        project,
+                        fields,
+                        className: this.getClassName(project),
+                        tileWidth,
+                        tileImageHeight,
+                        onClickHref: project.Url,
+                        showProjectInfo: e => this.setState({ showProjectInfo: project }),
+                        ...cardProperties,
+                    };
+                    console.log("renderCards", projectCardProps);
+                    return <ProjectCard key={idx}                            {...projectCardProps} />;
+                })}
             </div>
         );
     }

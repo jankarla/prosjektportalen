@@ -1,5 +1,6 @@
 import __ from "../../Resources";
 import { IBaseWebPartProps } from "../@BaseWebPart";
+import IProjectCardProps from "./ProjectCard/IProjectCardProps";
 
 export default interface IProjectListProps extends IBaseWebPartProps {
     tileWidth?: number;
@@ -14,6 +15,7 @@ export default interface IProjectListProps extends IBaseWebPartProps {
     emptyMessage?: string;
     propertyClassNames?: string[];
     searchTimeoutMs?: number;
+    cardProperties?: IProjectCardProps;
 }
 
 export const ProjectListDefaultProps: Partial<IProjectListProps> = {

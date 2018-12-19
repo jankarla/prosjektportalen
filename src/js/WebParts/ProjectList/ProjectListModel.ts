@@ -40,6 +40,10 @@ export default class ProjectListModel {
         return this;
     }
 
+    public getProperty(fieldName: string) {
+        return this.RawObject[fieldName];
+    }
+
     /**
     * Get manager (GtProjectManagerOWSUSER)
     */

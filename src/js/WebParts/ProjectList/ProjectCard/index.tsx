@@ -28,12 +28,7 @@ const ProjectCard = (props: IProjectCardProps): JSX.Element => {
             <DocumentCardPreview previewImages={[previewImage]} />
             <DocumentCardTitle title={props.project.Title} shouldTruncate={false} />
             <DocumentCardLocation location={props.project.Phase || __.getResource("String_NotSet")} />
-            <DocumentCardActivity
-                activity={props.fields["GtProjectOwner"]}
-                people={[props.project.getOwner()]} />
-            <DocumentCardActivity
-                activity={props.fields["GtProjectManager"]}
-                people={[props.project.getManager()]} />
+            <ProjectCardProperties fields={props.fields} project={props.project} customProperties={props.customProperties} />
             <DocumentCardActions
                 actions={
                     [{
@@ -49,6 +44,39 @@ const ProjectCard = (props: IProjectCardProps): JSX.Element => {
             />
         </DocumentCard>
     );
+};
+
+const ProjectCardProperties = ({ fields, project, customProperties }: IProjectCardProps): JSX.Element => {
+    customProperties = ["GtProjectPhase"];
+    if (customProperties) {
+        return (
+            <div>
+                {customProperties.map((prop, idx) => {
+                    return (
+                        <div key={`ProjectCardProperties_${idx}`} className="pp-projectCardCustomProperty">
+                            <div className="pp-projectCardCustomProperty-inner">
+                                <div>
+                                    <span className="pp-projectCardCustomProperty-value">{project.getProperty(prop)}</span>
+                                    <span className="pp-projectCardCustomProperty-label">{fields[prop]}</span>
+                                </div>
+                            </div>
+                        </div>
+                    );
+                })}
+            </div>
+        );
+    } else {
+        return (
+            <div>
+                <DocumentCardActivity
+                    activity={fields["GtProjectOwner"]}
+                    people={[project.getOwner()]} />
+                <DocumentCardActivity
+                    activity={fields["GtProjectManager"]}
+                    people={[project.getManager()]} />
+            </div>
+        );
+    }
 };
 
 export default ProjectCard;
